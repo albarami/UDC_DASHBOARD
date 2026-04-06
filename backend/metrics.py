@@ -52,6 +52,13 @@ def get_executive_overview() -> dict[str, Any]:
         round((leased_units / total_units) * 100, 1) if total_units else 0
     )
 
+    # ── Portfolio occupancy target (weighted average by unit count) ──
+    target_row = db.execute(
+        """SELECT SUM(occupancy_target * total_units) / SUM(total_units) AS weighted_target
+           FROM assets"""
+    ).fetchone()
+    portfolio_target = round(target_row["weighted_target"] * 100, 1)
+
     # ── Revenue (latest month) ──
     latest_month = db.execute(
         "SELECT MAX(month) AS m FROM finance_monthly"
@@ -223,8 +230,8 @@ def get_executive_overview() -> dict[str, Any]:
             "leased_units": leased_units,
             "vacant_units": vacant_units,
             "occupancy_rate_pct": occupancy_rate,
-            "occupancy_target_pct": 92.0,
-            "occupancy_gap": round(occupancy_rate - 92.0, 1),
+            "occupancy_target_pct": portfolio_target,
+            "occupancy_gap": round(occupancy_rate - portfolio_target, 1),
         },
         "revenue": {
             "current_month_qar": fin["rev"],
@@ -268,7 +275,7 @@ def get_executive_overview() -> dict[str, Any]:
         "data_status": "GOVERNED",
         "validation": {
             "occupancy_check": leased_units + vacant_units <= total_units,
-            "revenue_reconciled": True,
+            # revenue_reconciled: deferred — requires source system comparison
         },
     }
 
