@@ -533,7 +533,7 @@ def seed_leases(
 
     for idx, unit in enumerate(leased_units):
         tenant = all_tenants[idx % len(all_tenants)]
-        lease_start_dt = today - timedelta(days=random.randint(30, 1000))
+        lease_start_dt = today - timedelta(days=random.randint(30, 1825))
         lease_duration = random.choice([365, 730, 1095])
         lease_end_dt = lease_start_dt + timedelta(days=lease_duration)
         days_to_expiry = (lease_end_dt - today).days
@@ -658,12 +658,12 @@ def seed_work_orders(
     for u in all_units:
         units_by_asset.setdefault(u["asset_id"], []).append(u)
 
-    for i in range(1200):
+    for i in range(3000):
         asset = random.choice(assets)
         asset_units = units_by_asset.get(asset["asset_id"], all_units[:10])
         unit = random.choice(asset_units)
 
-        open_dt = today - timedelta(days=random.randint(1, 365))
+        open_dt = today - timedelta(days=random.randint(1, 1825))
         is_closed = random.random() < 0.75
         close_dt = (
             open_dt + timedelta(hours=random.randint(2, 720))
@@ -731,12 +731,12 @@ def seed_complaints(
     for u in all_units:
         units_by_asset.setdefault(u["asset_id"], []).append(u["unit_id"])
 
-    for i in range(500):
+    for i in range(1500):
         asset = random.choice(assets)
         unit_ids = units_by_asset.get(asset["asset_id"], ["U0001-0001"])
         unit_id = random.choice(unit_ids)
 
-        open_dt = today - timedelta(days=random.randint(1, 300))
+        open_dt = today - timedelta(days=random.randint(1, 1825))
         is_resolved = random.random() < 0.8
         close_dt = (
             open_dt + timedelta(days=random.randint(1, 30))
@@ -766,7 +766,7 @@ def seed_complaints(
 
 
 def seed_finance(conn: sqlite3.Connection, today: datetime) -> None:
-    """Seed 18 months of financial data for Commercial and Residential classes.
+    """Seed 60 months (5 years) of financial data for Commercial and Residential classes.
 
     Args:
         conn: Database connection.
@@ -775,8 +775,8 @@ def seed_finance(conn: sqlite3.Connection, today: datetime) -> None:
     c = conn.cursor()
     cash_balance = 450_000_000.0
 
-    for m in range(18):
-        month_dt = _months_back(today, 17 - m)
+    for m in range(60):
+        month_dt = _months_back(today, 59 - m)
         month_str = _month_str(month_dt)
 
         for asset_class in ["Commercial", "Residential"]:
@@ -896,7 +896,7 @@ def seed_contracts(conn: sqlite3.Connection, today: datetime) -> None:
 
 
 def seed_subsidiary_financials(conn: sqlite3.Connection, today: datetime) -> None:
-    """Seed 12 months of subsidiary financial data.
+    """Seed 60 months (5 years) of subsidiary financial data.
 
     Args:
         conn: Database connection.
@@ -904,8 +904,8 @@ def seed_subsidiary_financials(conn: sqlite3.Connection, today: datetime) -> Non
     """
     c = conn.cursor()
 
-    for m in range(12):
-        month_str = _month_str(_months_back(today, 11 - m))
+    for m in range(60):
+        month_str = _month_str(_months_back(today, 59 - m))
 
         for sub in SUBSIDIARIES:
             rev = round(random.uniform(5_000_000, 40_000_000), 0)
@@ -932,7 +932,7 @@ def seed_community_fees(
     today: datetime,
     all_units: list[dict[str, Any]],
 ) -> None:
-    """Seed 12 months of community fee data across all zones.
+    """Seed 60 months (5 years) of community fee data across all zones.
 
     Args:
         conn: Database connection.
@@ -942,8 +942,8 @@ def seed_community_fees(
     c = conn.cursor()
     sample_unit_ids = [u["unit_id"] for u in all_units[:100]]
 
-    for m in range(12):
-        month_str = _month_str(_months_back(today, 11 - m))
+    for m in range(60):
+        month_str = _month_str(_months_back(today, 59 - m))
 
         for zone in ZONES:
             num_owners = random.randint(30, 100)
@@ -990,8 +990,8 @@ def seed_leads(conn: sqlite3.Connection, today: datetime) -> None:
     statuses = list(status_weights.keys())
     weights = list(status_weights.values())
 
-    for i in range(600):
-        lead_dt = today - timedelta(days=random.randint(1, 365))
+    for i in range(2000):
+        lead_dt = today - timedelta(days=random.randint(1, 1825))
         status = random.choices(statuses, weights=weights)[0]
         segment = random.choice(["Residential", "Commercial"])
 
@@ -1061,7 +1061,7 @@ def seed_all_data() -> None:
     print("Seeding complaints...")
     seed_complaints(conn, today, assets, all_units, all_tenants)
 
-    print("Seeding finance (18 months)...")
+    print("Seeding finance (60 months)...")
     seed_finance(conn, today)
 
     print("Seeding employees...")

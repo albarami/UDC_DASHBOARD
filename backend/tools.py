@@ -189,12 +189,46 @@ TOOL_DEFINITIONS: list[dict[str, Any]] = [
 # TOOL IMPLEMENTATIONS — map tool names to governed functions
 # ═══════════════════════════════════════════════════════════════
 
+def _wrap_attention_index() -> dict[str, Any]:
+    """Wrap asset attention index with metadata for C1 transparency."""
+    results = calculate_asset_attention_index()
+    return {
+        "assets": results,
+        "total_scored": len(results),
+        "data_status": "GOVERNED",
+        "scoring_version": "v1.0",
+        "weights": {
+            "vacancy_gap": 0.30,
+            "overdue_work_orders": 0.20,
+            "receivables_90plus": 0.20,
+            "complaint_rate": 0.15,
+            "lease_expiry_concentration": 0.15,
+        },
+    }
+
+
+def _wrap_collections_priority() -> dict[str, Any]:
+    """Wrap collections priority with metadata for C1 transparency."""
+    results = calculate_collections_priority()
+    return {
+        "tenants": results,
+        "total_flagged": len(results),
+        "data_status": "GOVERNED",
+        "scoring_version": "v1.0",
+        "weights": {
+            "amount_overdue": 0.40,
+            "days_overdue": 0.30,
+            "tenant_risk_score": 0.30,
+        },
+    }
+
+
 TOOL_IMPLEMENTATIONS: dict[str, Callable[..., str]] = {
     "get_executive_overview": lambda **kwargs: _to_json(get_executive_overview()),
     "get_commercial_leasing_dashboard": lambda **kwargs: _to_json(get_commercial_leasing()),
     "get_finance_dashboard": lambda **kwargs: _to_json(get_finance_dashboard()),
     "get_maintenance_dashboard": lambda **kwargs: _to_json(get_maintenance_dashboard()),
-    "get_asset_attention_index": lambda **kwargs: _to_json(calculate_asset_attention_index()),
-    "get_collections_priority": lambda **kwargs: _to_json(calculate_collections_priority()),
+    "get_asset_attention_index": lambda **kwargs: _to_json(_wrap_attention_index()),
+    "get_collections_priority": lambda **kwargs: _to_json(_wrap_collections_priority()),
     "get_zone_deep_dive": lambda zone_name, **kwargs: _to_json(get_zone_deep_dive(zone_name)),
 }
