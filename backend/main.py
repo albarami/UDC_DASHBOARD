@@ -1,3 +1,10 @@
+# NOTE: Start the server with:
+#   python -m uvicorn main:app --port 8000
+# Or simply:
+#   python main.py
+# Do NOT use bare `uvicorn` command — it may resolve to a different Python version.
+# The --reload flag is also unreliable in multi-Python environments.
+
 """
 UDC CEO Dashboard — FastAPI Backend
 
@@ -7,8 +14,15 @@ C1-rendered dashboard response back to the frontend.
 """
 
 import json
+import logging
 import os
 from typing import Any
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+logger = logging.getLogger("udc-dashboard")
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -109,6 +123,9 @@ async def chat(request: ChatRequest) -> None:
         6. Save assistant message to thread history
     """
     thread_id = request.threadId
+    prompt_text = request.prompt.get("content", "")[:80]
+    logger.info("Chat request: threadId=%s, prompt=%s", thread_id, prompt_text)
+
     messages = _get_messages(thread_id)
     messages.append(request.prompt)
 
@@ -157,6 +174,8 @@ async def chat(request: ChatRequest) -> None:
             func_name = tc.function.name
             args = json.loads(tc.function.arguments or "{}")
 
+            logger.info("Tool call: %s(%s)", func_name, args)
+
             label = THINKING_LABELS.get(func_name, ("Processing...", "Fetching data"))
             await write_think_item(title=label[0], description=label[1])
 
@@ -164,6 +183,8 @@ async def chat(request: ChatRequest) -> None:
                 result = TOOL_IMPLEMENTATIONS[func_name](**args)
             else:
                 result = json.dumps({"error": f"Unknown tool: {func_name}"})
+
+            logger.info("Tool result: %s returned %d bytes", func_name, len(result))
 
             all_messages.append({
                 "role": "tool",
@@ -185,6 +206,8 @@ async def chat(request: ChatRequest) -> None:
     assistant_msg = get_assistant_message()
     assistant_msg["id"] = request.responseId
     messages.append(assistant_msg)
+
+    logger.info("Chat complete: threadId=%s, responseId=%s", thread_id, request.responseId)
 
 
 if __name__ == "__main__":
