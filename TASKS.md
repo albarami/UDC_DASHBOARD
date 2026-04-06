@@ -23,22 +23,22 @@
 - [x] Test: run 3 sample queries to confirm data quality
 
 ### Step 3: Metric Registry
-- [ ] Create backend/metric_registry.py with all Phase 1 metric definitions
-- [ ] Define once, reuse everywhere — no duplicate metric definitions
+- [x] Create backend/metric_registry.py with all Phase 1 metric definitions
+- [x] Define once, reuse everywhere — no duplicate metric definitions
 
 ### Step 4: Deterministic Metrics Engine
-- [ ] Create backend/metrics.py with 4 dashboard functions:
-  - [ ] get_executive_overview() — with enhanced version (trends, alerts, narrative context)
-  - [ ] get_commercial_leasing()
-  - [ ] get_finance_dashboard()
-  - [ ] get_maintenance_dashboard()
-- [ ] Create backend/scoring.py with 2 scoring functions:
-  - [ ] calculate_asset_attention_index()
-  - [ ] calculate_collections_priority()
-- [ ] Create get_zone_deep_dive(zone_name) for drill-downs
-- [ ] Test: each function returns valid JSON with correct structure
-- [ ] Test: all numbers trace to SQL queries (no hardcoded values)
-- [ ] Test: validation checks pass (occupancy numerator <= denominator, aging buckets sum to total AR)
+- [x] Create backend/metrics.py with 4 dashboard functions:
+  - [x] get_executive_overview() — with enhanced version (trends, alerts, narrative context)
+  - [x] get_commercial_leasing()
+  - [x] get_finance_dashboard()
+  - [x] get_maintenance_dashboard()
+- [x] Create backend/scoring.py with 2 scoring functions:
+  - [x] calculate_asset_attention_index()
+  - [x] calculate_collections_priority()
+- [x] Create get_zone_deep_dive(zone_name) for drill-downs
+- [x] Test: each function returns valid JSON with correct structure
+- [x] Test: all numbers trace to SQL queries (no hardcoded values)
+- [x] Test: validation checks pass (occupancy numerator <= denominator, aging buckets sum to total AR)
 
 ### Step 5: Tool Definitions
 - [ ] Create backend/tools.py with 7 tool definitions + implementations
