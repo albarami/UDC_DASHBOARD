@@ -41,14 +41,14 @@
 - [x] Test: validation checks pass (occupancy numerator <= denominator, aging buckets sum to total AR)
 
 ### Step 5: Tool Definitions
-- [ ] Create backend/tools.py with 7 tool definitions + implementations
-- [ ] Each tool has OpenAI-compatible JSON schema
-- [ ] Each tool maps to a governed metrics/scoring function
-- [ ] Test: each tool_implementation returns valid JSON
+- [x] Create backend/tools.py with 7 tool definitions + implementations
+- [x] Each tool has OpenAI-compatible JSON schema
+- [x] Each tool maps to a governed metrics/scoring function
+- [x] Test: each tool_implementation returns valid JSON
 
 ### Step 6: System Prompt
-- [ ] Create backend/system_prompt.py with the enhanced 5-layer prompt
-- [ ] Verify prompt includes: visual-first rules, color language, priority badges, drill-down patterns, CEO question mapping
+- [x] Create backend/system_prompt.py with the enhanced 5-layer prompt
+- [x] Verify prompt includes: visual-first rules, color language, priority badges, drill-down patterns, CEO question mapping
 
 ### Step 7: FastAPI Backend
 - [ ] Create backend/main.py with:
