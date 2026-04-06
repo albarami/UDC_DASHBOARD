@@ -51,16 +51,16 @@
 - [x] Verify prompt includes: visual-first rules, color language, priority badges, drill-down patterns, CEO question mapping
 
 ### Step 7: FastAPI Backend
-- [ ] Create backend/main.py with:
-  - [ ] C1 API client setup
-  - [ ] Tool calling loop (call → execute → return → repeat until done)
-  - [ ] Streaming response with thesys_genui_sdk
-  - [ ] Thinking states for each tool call
-  - [ ] In-memory message store
-  - [ ] CORS middleware
-- [ ] Test: POST /api/chat with a test prompt returns streaming C1 response
-- [ ] Test: tool calls execute correctly and return governed data
-- [ ] Test: thinking states appear in response stream
+- [x] Create backend/main.py with:
+  - [x] C1 API client setup
+  - [x] Tool calling loop (call → execute → return → repeat until done)
+  - [x] Streaming response with thesys_genui_sdk
+  - [x] Thinking states for each tool call
+  - [x] In-memory message store
+  - [x] CORS middleware
+- [x] Test: POST /api/chat with a test prompt returns streaming C1 response
+- [x] Test: tool calls execute correctly and return governed data
+- [x] Test: thinking states appear in response stream
 
 ### Step 8: Next.js Frontend
 - [ ] Create frontend with C1Chat component
