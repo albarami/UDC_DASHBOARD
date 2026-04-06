@@ -1,7 +1,9 @@
 """Test the FastAPI backend end-to-end."""
+import os
+
 import requests
 
-BASE_URL = "http://localhost:8000"
+BASE_URL = os.environ.get("TEST_URL", "http://localhost:8000")
 
 
 def _send_and_read(prompt: str, thread_id: str, response_id: str) -> str:
@@ -18,7 +20,6 @@ def _send_and_read(prompt: str, thread_id: str, response_id: str) -> str:
     )
     assert resp.status_code == 200, f"Status {resp.status_code}"
 
-    # Read stream incrementally instead of blocking on .text
     chunks = []
     for chunk in resp.iter_content(chunk_size=None, decode_unicode=True):
         if chunk:
@@ -27,7 +28,7 @@ def _send_and_read(prompt: str, thread_id: str, response_id: str) -> str:
 
 
 def test_chat_endpoint():
-    print("\n=== TESTING FASTAPI BACKEND ===\n")
+    print(f"\n=== TESTING FASTAPI BACKEND at {BASE_URL} ===\n")
 
     # Test 1: Executive overview
     print("  Test 1: 'How are we doing?' ...")

@@ -1,9 +1,6 @@
-# NOTE: Start the server with:
-#   python -m uvicorn main:app --port 8000
-# Or simply:
+# Start the server with:
 #   python main.py
-# Do NOT use bare `uvicorn` command — it may resolve to a different Python version.
-# The --reload flag is also unreliable in multi-Python environments.
+# This uses subprocess to guarantee the correct Python interpreter for reload.
 
 """
 UDC CEO Dashboard — FastAPI Backend
@@ -16,13 +13,8 @@ C1-rendered dashboard response back to the frontend.
 import json
 import logging
 import os
+import sys
 from typing import Any
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
-)
-logger = logging.getLogger("udc-dashboard")
 
 from dotenv import load_dotenv
 from fastapi import FastAPI
@@ -34,6 +26,12 @@ from thesys_genui_sdk.fast_api import with_c1_response
 
 from system_prompt import SYSTEM_PROMPT
 from tools import TOOL_DEFINITIONS, TOOL_IMPLEMENTATIONS
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+)
+logger = logging.getLogger("udc-dashboard")
 
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), "..", ".env"))
 
@@ -125,6 +123,7 @@ async def chat(request: ChatRequest) -> None:
     thread_id = request.threadId
     prompt_text = request.prompt.get("content", "")[:80]
     logger.info("Chat request: threadId=%s, prompt=%s", thread_id, prompt_text)
+    print(f">>> CHAT REQUEST: threadId={thread_id}, prompt={prompt_text}", flush=True)
 
     messages = _get_messages(thread_id)
     messages.append(request.prompt)
@@ -174,6 +173,7 @@ async def chat(request: ChatRequest) -> None:
             func_name = tc.function.name
             args = json.loads(tc.function.arguments or "{}")
 
+            print(f">>> TOOL CALL: {func_name}({args})", flush=True)
             logger.info("Tool call: %s(%s)", func_name, args)
 
             label = THINKING_LABELS.get(func_name, ("Processing...", "Fetching data"))
@@ -184,6 +184,7 @@ async def chat(request: ChatRequest) -> None:
             else:
                 result = json.dumps({"error": f"Unknown tool: {func_name}"})
 
+            print(f">>> TOOL RESULT: {func_name} returned {len(result)} bytes", flush=True)
             logger.info("Tool result: %s returned %d bytes", func_name, len(result))
 
             all_messages.append({
@@ -208,9 +209,18 @@ async def chat(request: ChatRequest) -> None:
     messages.append(assistant_msg)
 
     logger.info("Chat complete: threadId=%s, responseId=%s", thread_id, request.responseId)
+    print(f">>> CHAT COMPLETE: threadId={thread_id}, responseId={request.responseId}", flush=True)
 
 
 if __name__ == "__main__":
-    import uvicorn
+    import subprocess
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    port = int(os.environ.get("PORT", 8000))
+    logger.info("Starting UDC CEO Dashboard backend on port %d", port)
+    logger.info("Python: %s", sys.executable)
+    subprocess.run([
+        sys.executable, "-m", "uvicorn", "main:app",
+        "--host", "0.0.0.0",
+        "--port", str(port),
+        "--reload",
+    ])
