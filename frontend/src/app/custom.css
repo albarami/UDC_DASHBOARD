@@ -1,0 +1,208 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #0a0f1a;
+  color: #f5f5f7;
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'tnum' on, 'lnum' on;
+}
+
+html, body {
+  height: 100%;
+  overflow: hidden;
+}
+
+::selection {
+  background: rgba(201, 169, 97, 0.3);
+  color: #f5f5f7;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2d3748;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4a5568;
+}
+
+/* ── C1Chat Container ── */
+
+.crayon-shell-container {
+  max-width: 1440px;
+  margin: 0 auto;
+  height: 100vh;
+}
+
+/* ── Typography ── */
+
+.crayon-header {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.015em;
+}
+
+/* ── Welcome Screen ── */
+
+[class*="welcomeScreen"],
+[class*="WelcomeScreen"] {
+  padding-top: 12vh;
+}
+
+[class*="welcomeTitle"],
+[class*="WelcomeTitle"] {
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #f5f5f7;
+}
+
+[class*="welcomeDescription"],
+[class*="WelcomeDescription"] {
+  color: #6b7280;
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+/* ── Conversation Starters ── */
+
+[class*="conversationStarter"],
+[class*="ConversationStarter"] {
+  border: 1px solid #1f2937;
+  background: #111827;
+  border-radius: 10px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+[class*="conversationStarter"]:hover,
+[class*="ConversationStarter"]:hover {
+  border-color: rgba(201, 169, 97, 0.4);
+  background: #1a2332;
+  box-shadow: 0 0 0 1px rgba(201, 169, 97, 0.1);
+}
+
+/* ── Input Area ── */
+
+textarea,
+[class*="inputArea"],
+[class*="InputArea"] {
+  font-family: 'Inter', sans-serif;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+[class*="inputContainer"],
+[class*="InputContainer"] {
+  border-color: #1f2937;
+  transition: border-color 0.2s ease;
+}
+
+[class*="inputContainer"]:focus-within,
+[class*="InputContainer"]:focus-within {
+  border-color: #c9a961;
+  box-shadow: 0 0 0 1px rgba(201, 169, 97, 0.2);
+}
+
+/* ── Response Cards ── */
+
+[class*="assistantMessage"],
+[class*="AssistantMessage"] {
+  line-height: 1.6;
+}
+
+/* ── Tables ── */
+
+table {
+  font-feature-settings: 'tnum' on, 'lnum' on;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th {
+  font-weight: 600;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6b7280;
+  padding: 10px 12px;
+  text-align: left;
+  border-bottom: 1px solid #1f2937;
+}
+
+td {
+  padding: 12px;
+  font-size: 14px;
+  border-bottom: 1px solid rgba(31, 41, 55, 0.5);
+  color: #d1d5db;
+}
+
+tr:hover td {
+  background: rgba(201, 169, 97, 0.04);
+}
+
+/* ── Thinking States ── */
+
+[class*="thinkItem"],
+[class*="ThinkItem"] {
+  border-left: 2px solid #c9a961;
+  padding-left: 12px;
+  animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes pulseGold {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* ── Suggested Prompts ── */
+
+.crayon-shell-suggested-prompts {
+  gap: 8px;
+}
+
+/* ── Smooth scroll ── */
+
+* {
+  scroll-behavior: smooth;
+}
+
+/* ── Focus states ── */
+
+:focus-visible {
+  outline: 2px solid rgba(201, 169, 97, 0.5);
+  outline-offset: 2px;
+}
+
+/* ── Print-friendly ── */
+
+@media print {
+  body {
+    background: white;
+    color: #111;
+  }
+}

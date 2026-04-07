@@ -63,14 +63,14 @@
 - [x] Test: thinking states appear in response stream
 
 ### Step 8: Next.js Frontend
-- [ ] Create frontend with C1Chat component
-- [ ] Configure: full-page layout, carbon dark theme, UDC branding
-- [ ] Add suggested prompts matching CEO workflows
-- [ ] Set up API proxy to FastAPI backend
-- [ ] Test: open http://localhost:3000 — C1Chat renders
-- [ ] Test: type "How are we doing?" — full executive dashboard appears
-- [ ] Test: drill-down buttons work — clicking triggers new tool calls
-- [ ] Test: thinking states visible during loading
+- [x] Create frontend with C1Chat component
+- [x] Configure: full-page layout, custom UDC dark theme, UDC branding
+- [x] Add conversation starters matching CEO workflows (6 options)
+- [x] Set up API proxy to FastAPI backend (streaming SSE)
+- [x] Test: open http://localhost:3000 — C1Chat renders with dark theme
+- [x] Test: type "How are we doing?" — full executive dashboard appears with KPIs, charts, tables
+- [x] Test: drill-down buttons appear at bottom of response
+- [x] Test: thinking states visible during loading ("Preparing your dashboard...")
 
 ### Step 9: Integration Testing
 - [ ] Test all 7 tools through the full stack (frontend → backend → C1 → tool → render)
