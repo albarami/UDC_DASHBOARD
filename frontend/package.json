@@ -1,6 +1,6 @@
 {
-  "name": "frontend",
-  "version": "0.1.0",
+  "name": "udc-ceo-dashboard",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -8,18 +8,18 @@
     "start": "next start"
   },
   "dependencies": {
-    "@crayonai/react-ui": "^0.9.16",
-    "@crayonai/stream": "^0.6.4",
-    "@thesysai/genui-sdk": "^0.8.6",
-    "next": "16.2.2",
-    "openai": "^6.33.0",
-    "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "@crayonai/react-ui": "latest",
+    "@crayonai/stream": "latest",
+    "@thesysai/genui-sdk": "latest",
+    "next": "14.2.15",
+    "openai": "^4.50.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "typescript": "^5"
+    "@types/node": "^20.0.0",
+    "@types/react": "18.3.12",
+    "@types/react-dom": "18.3.1",
+    "typescript": "^5.5.0"
   }
 }

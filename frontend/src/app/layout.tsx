@@ -1,6 +1,7 @@
 import "@crayonai/react-ui/styles/index.css";
 import "./custom.css";
 import type { Metadata } from "next";
+import { TopBar } from "./components/TopBar";
 
 export const metadata: Metadata = {
   title: "UDC Executive Dashboard",
@@ -20,7 +21,10 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        <TopBar />
+        {children}
+      </body>
     </html>
   );
 }
